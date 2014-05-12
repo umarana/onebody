@@ -4,7 +4,7 @@ class VersesController < ApplicationController
     if params[:person_id]
       @person = Person.find(params[:person_id])
       if @logged_in.can_see?(@person)
-        @verses = @person.verses.paginate(order: 'created_at desc', page: params[:page])
+        @verses = @person.verses.order(created_at: :desc).page(params[:page])
       else
         render text: t('not_authorized'), layout: true, status: 401
       end
