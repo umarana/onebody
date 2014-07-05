@@ -26,6 +26,13 @@ Contact:
   Send Updates To:
     format: string
     value: admin@beonebody.com
+Email:
+  Host:
+    format: string
+    value:
+  Apikey:
+    format: string
+    value:
 Name:
   Community:
     format: string

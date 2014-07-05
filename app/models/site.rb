@@ -65,6 +65,14 @@ class Site < ActiveRecord::Base
     end
   end
 
+  def email_host
+    Setting.get(:email, :host).presence || host
+  end
+
+  def mailgun_apikey
+    Setting.get(:email, :apikey)
+  end
+
   def noreply_email
     "noreply@#{self.host}"
   end

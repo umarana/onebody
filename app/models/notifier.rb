@@ -65,7 +65,7 @@ class Notifier < ActionMailer::Base
         'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
       ) unless to.new_record? # allows preview to work
       if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
-        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.host}>"
+        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.email_host}>"
       end
     end
     headers h
@@ -158,7 +158,7 @@ class Notifier < ActionMailer::Base
     )
   end
 
-  def receive(email)
+  def   receive(email)
     sent_to = Array(email.cc) + Array(email.to) # has to be reversed (cc first) so that group replies work right
 
     return unless email.from.to_s.any?
@@ -220,7 +220,7 @@ class Notifier < ActionMailer::Base
     sent_to.each do |address|
       address, domain = address.strip.downcase.split('@')
       next unless address.any? and domain.any?
-      our_domain = [Site.current.host, Site.current.secondary_host].compact.include?(domain)
+      our_domain = [Site.current.email_host, Site.current.secondary_host].compact.include?(domain)
       if our_domain and group = Group.where(address: address).first and group.can_send?(@person)
         message = group_email(group, email, body)
         if @message_sent_to_group
