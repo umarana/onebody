@@ -94,6 +94,12 @@ describe Signup do
             expect(@signup.approval_sent?).to eq(false)
           end
         end
+
+        context '#found_existing?' do
+          it 'should return true' do
+            expect(@signup.found_existing?).to eq(true)
+          end
+        end
       end
     end
 
@@ -145,8 +151,15 @@ describe Signup do
             expect(@signup.can_verify_mobile?).to eq(true)
           end
         end
+
+        context '#found_existing?' do
+          it 'should return true' do
+            expect(@signup.found_existing?).to eq(true)
+          end
+        end
       end
     end
+
     context 'honeypot field contains text' do
       before do
         @signup = Signup.new(a_phone_number: '1234567890')
@@ -225,6 +238,10 @@ describe Signup do
                 expect(@person.birthday).to eq(Date.new(1980, 1, 1))
               end
 
+              it 'should have a mobile phone' do
+                expect(@person.mobile_phone).to eq('1234567890')
+              end
+
               it 'should be able to sign in' do
                 expect(@person.can_sign_in?).to eq(true)
               end
@@ -246,6 +263,12 @@ describe Signup do
           context '#save!' do
             it 'should return true' do
               expect(@signup.save!).to eq(true)
+            end
+          end
+
+          context '#found_existing?' do
+            it 'should return false' do
+              expect(@signup.found_existing?).to eq(false)
             end
           end
         end
