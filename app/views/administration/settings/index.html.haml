@@ -107,6 +107,8 @@
       = setting_row('URL', 'Visitor')
       = setting_row('URL', 'News Feed')
       = setting_row('Services', 'Analytics')
+      = setting_row('Email', 'Host')
+      = setting_row('Email', 'Apikey')
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
@@ -131,4 +133,3 @@
   function scrollTo(id) {
     $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');
   }
-
