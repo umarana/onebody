@@ -45,6 +45,7 @@ en:
       tabs:
         people: "Deleted People"
         families: "Empty Families"
+      family_deleted: "deleted"
       heading: "Deleted People"
       empty_families:
         intro: "The following active families have no people in them and probably should be deleted."
@@ -108,7 +109,6 @@ en:
     group_administrators_description: Each group can designate people who can administer that particular group, regardless of their status on this page.
     group_administrators_help: To add/remove a person as a group administrator, click "edit" next to the group and promote an existing group member.
     group_membership_requests: Group Membership Requests
-    import_data_description: Import people data from a Comma Separated Values (CSV) file.
     import_export: Import/Export
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
@@ -118,8 +118,6 @@ en:
       logo: Logo
       size_information: Upload an image file below. It will be resized to be no larger than 300x80.
       upload: Upload Logo
-    logs:
-      deleted: deleted
     manage_group_administrators: Manage Group Administrators
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.
@@ -192,6 +190,9 @@ en:
         title: Manage Checkin
         about: "Manage all aspects of checkin, including setup and configuration."
         order: checkin2
+      manage_documents:
+        title: Manage Documents
+        about: "Add, edit and delete documents."
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"
@@ -208,13 +209,38 @@ en:
         Birthday Verification Email:
           name: Birthday Verification Email
           description: Email sent when someone requests verification via birthday (shouldn't be blank)
+<<<<<<< HEAD
         Community Email:
+||||||| merged common ancestors
+        Community Email: 
+=======
+        Tech Support Email:
+          name: "Tech Support Email"
+          description: "Users will be directed to send an email here if they need technical help with the site."
+        Community Email: 
+>>>>>>> ac1254986d8feabb8f3e12a582118ac5b9394ff9
           name: Community Email
+<<<<<<< HEAD
           description: Visible in some places on site
         Bug Notification Email:
+||||||| merged common ancestors
+          description: Visible in some places on site
+        Bug Notification Email: 
+=======
+          description: "Users will be directed to send an email here if they want general/policy information about your community."
+        Bug Notification Email: 
+>>>>>>> ac1254986d8feabb8f3e12a582118ac5b9394ff9
           name: Bug Notification Email
+<<<<<<< HEAD
           description: Email address to send bug reports to
         Send Email Changes To:
+||||||| merged common ancestors
+          description: Email address to send bug reports to
+        Send Email Changes To: 
+=======
+          description: "Automated software bug reports are sent to this email address."
+        Send Email Changes To: 
+>>>>>>> ac1254986d8feabb8f3e12a582118ac5b9394ff9
           name: Send Email Changes To
           description: Email sent when someone changes their email address (can be blank for no email)
         Send Updates To:
@@ -365,8 +391,19 @@ en:
         Checkin:
           name: "Check-in"
           description: "If enabled, users can check-in to designated classes."
+<<<<<<< HEAD
       Privacy:
         Hide Contact Details in Messages:
+||||||| merged common ancestors
+      Privacy: 
+        Hide Contact Details in Messages: 
+=======
+        Documents:
+          name: "Documents"
+          description: "If enabled, admins can upload files in a general area where users can browse and download them."
+      Privacy: 
+        Hide Contact Details in Messages: 
+>>>>>>> ac1254986d8feabb8f3e12a582118ac5b9394ff9
           name: Hide Contact Details in Messages
           description: If enabled, attempts are made to hide phone numbers and email addresses inside messages when viewed online.
         Share Anniversary by Default:
@@ -399,14 +436,24 @@ en:
         Share Address by Default:
           name: Share Address
           description: If enabled, new users will have their home address shared with other site members.
+<<<<<<< HEAD
         Relay All Email:
           name: Relay All Email
           description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
         Share Birthday by Default:
+||||||| merged common ancestors
+        Relay All Email: 
+          name: Relay All Email
+          description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
+        Share Birthday by Default: 
+=======
+        Share Birthday by Default: 
+>>>>>>> ac1254986d8feabb8f3e12a582118ac5b9394ff9
           name: Share Birthday
           description: If enabled, new users will have their birthday shared with other site members.
       host:
         name: "Host/Domain Name"
+<<<<<<< HEAD
         description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com"
       Email:
         Host:
@@ -416,6 +463,12 @@ en:
           name: "Mailgun API Key"
           description: "API Key to use mailgun.com as the email receiver."
 
+||||||| merged common ancestors
+        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com"
+
+=======
+        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
+>>>>>>> ac1254986d8feabb8f3e12a582118ac5b9394ff9
       advanced:
         heading: "Advanced"
         intro: "If settings aren't getting reloaded, click the button below to force reload."

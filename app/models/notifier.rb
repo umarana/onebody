@@ -70,11 +70,6 @@ class Notifier < ActionMailer::Base
     end
     headers h
     msg.attachments.each do |a|
-      #attachments[a.name] = {
-        #:mime_type => a.content_type,
-        #:content   => File.read(a.file.path)
-      #}
-      # TODO check that it's ok to not specify content-type...
       attachments[a.name] = File.read(a.file.path)
     end
     mail(
@@ -158,7 +153,6 @@ class Notifier < ActionMailer::Base
 
   def printed_directory(person, file)
     @person = person
-    # TODO check that it is ok that we don't specify content-type application/pdf here
     attachments['directory.pdf'] = file.read
     mail(
       to:      "\"#{person.name}\" <#{person.email}>",
@@ -291,18 +285,7 @@ class Notifier < ActionMailer::Base
         dont_send: true
       )
       if message.valid?
-        if email.has_attachments?
-          email.attachments.each do |attachment|
-            name = File.split(attachment.filename.to_s).last
-            unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-              message.attachments.create(
-                name:         name,
-                content_type: attachment.content_type.strip,
-                file:         FakeFile.new(attachment.body.to_s, name)
-              )
-            end
-          end
-        end
+        create_attachments(email, message)
         already_sent_to = email.to.to_a
         message.send_to_group(already_sent_to)
         @message_sent_to_group = true
@@ -333,9 +316,29 @@ class Notifier < ActionMailer::Base
             subject: email.subject,
             body: clean_body(body[:text]),
             html_body: clean_body(body[:html]),
-            parent: message
+            parent: message,
+            dont_send: true
           )
+          if message.valid?
+            create_attachments(email, message)
+            message.send_to_person(message.to)
+          end
           true
+        end
+      end
+    end
+
+    def create_attachments(email, message)
+      if email.has_attachments?
+        email.attachments.each do |attachment|
+          name = File.split(attachment.filename.to_s).last
+          unless ATTACHMENTS_TO_IGNORE.include? name.downcase
+            message.attachments.create(
+              name:         name,
+              content_type: attachment.content_type.strip,
+              file:         FakeFile.new(attachment.body.to_s, name)
+            )
+          end
         end
       end
     end
@@ -376,7 +379,7 @@ class Notifier < ActionMailer::Base
       people = Person.where("lcase(email) = ?", email.from.first.downcase).to_a
       if people.length == 0
         # user is not found in the system, try alternate email
-        Person.where("lcase(alternate_email) = ?", email.from.to_s.downcase).first
+        Person.where("lcase(alternate_email) = ?", email.from.first.downcase).first
       elsif people.length == 1
         people.first
       elsif people.length > 1
@@ -393,31 +396,17 @@ class Notifier < ActionMailer::Base
     end
 
     def self.get_body(email)
-      # if the message is multipart, try to grab the plain text and/or html parts
-      text = nil
-      html = nil
-      if email.multipart?
-        email.parts.each do |part|
-          case part.content_type.downcase.split(';').first
-            when 'text/plain'
-              text = part.body.to_s
-            when 'text/html'
-              html = part.body.to_s
-            when 'multipart/alternative'
-              if p = part.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
-                text ||= p.body.to_s
-              end
-              if p = part.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/html'  }
-                html ||= p.body.to_s
-              end
-          end
-        end
-        return {text: text, html: html}
-      elsif email.content_type.downcase.split(';').first == 'text/html'
-        return {text: nil, html: email.body.to_s}
-      else
-        return {text: email.body.to_s}
+      body = {
+        text: email.text_part.try(:decoded),
+        html: email.html_part.try(:decoded)
+      }
+      type = email.content_type.downcase.split(';').first
+      if body[:text].nil? and type == 'text/plain'
+        body[:text] = email.decoded
+      elsif body[:html].nil? and type == 'text/html'
+        body[:html] = email.decoded
       end
+      body
     end
 
     def clean_body(body)

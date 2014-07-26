@@ -29,7 +29,7 @@ class FamiliesController < ApplicationController
       @family = Family.where(id: params[:id], deleted: false).first
     end
     raise ActiveRecord::RecordNotFound unless @family
-    @people = @family.people.to_a.select { |p| @logged_in.can_see? p }
+    @people = @family.people.undeleted.to_a.select { |p| @logged_in.can_see?(p) }
     if @logged_in.can_see?(@family)
       respond_to do |format|
         format.html
@@ -107,11 +107,12 @@ class FamiliesController < ApplicationController
   end
 
   def hashify
+    params.merge!(Hash.from_xml(request.body.read))
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       ids = params[:hash][:legacy_id].to_s.split(',')
       raise 'error' if ids.length > 1000
       hashes = Family.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
-      render xml: hashes
+      render xml: hashes.to_a
     else
       render text: t('not_authorized'), layout: true, status: 401
     end

@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+ruby File.read(File.expand_path('../.ruby-version', __FILE__)).strip.sub(/ruby\-/, '')
+
 gem 'rails', '~> 4.0.0'
 gem 'rails_autolink'
 gem 'mysql2'
@@ -43,6 +45,10 @@ group :development do
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
+  gem 'capistrano'
+  gem 'capistrano-newrelic'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
 end
 
 group :development, :test do
@@ -56,5 +62,5 @@ group :development, :test do
 end
 
 group :production do
-  gem 'exception_notification'
+  gem 'newrelic_rpm'
 end

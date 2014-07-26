@@ -18,7 +18,7 @@ class Site < ActiveRecord::Base
 
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
-  validates_format_of :host, without: /\Awww\./
+  validates_format_of :host, without: /\A(https?:\/\/|www\.)/
   do_not_validate_attachment_file_type :logo
 
   has_attached_file :logo,
@@ -66,7 +66,7 @@ class Site < ActiveRecord::Base
   end
 
   def email_host
-    Setting.get(:email, :host).presence || host
+    self[:email_host].presence || host
   end
 
   def mailgun_apikey
@@ -74,7 +74,7 @@ class Site < ActiveRecord::Base
   end
 
   def noreply_email
-    "noreply@#{self.host}"
+    "noreply@#{self.email_host}"
   end
 
   def visible_name
