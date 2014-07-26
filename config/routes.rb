@@ -121,6 +121,8 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
+  resource :emails
+
   resource :email
   get 'setup_email', to: 'email#create_route'
 
