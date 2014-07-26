@@ -214,8 +214,6 @@ en:
           description: "Users will be directed to send an email here if they need technical help with the site."
         Community Email:
           name: Community Email
-          description: Visible in some places on site
-        Bug Notification Email:
           description: "Users will be directed to send an email here if they want general/policy information about your community."
         Bug Notification Email:
           name: Bug Notification Email
