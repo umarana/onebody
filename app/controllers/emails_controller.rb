@@ -15,9 +15,9 @@ class EmailsController < ApplicationController
     data[:description] = "Catch All Route"
     data[:expression] = "match_recipient('.*@#{Site.current.email_host}')"
     data[:action] = ["forward('http://#{Site.current.host}/emails.mime/')", "stop()"]
-    HTTParty.post("https://api:#{Site.current.mailgun_apikey}@api.mailgun.net/v2/routes",
+    result = HTTParty.post("https://api:#{Site.current.mailgun_apikey}@api.mailgun.net/v2/routes",
                   body: data)
-    render nothing: true
+    render result
   end
 
   private
