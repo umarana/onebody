@@ -17,7 +17,7 @@ class EmailsController < ApplicationController
     data[:action] = ["forward('http://#{Site.current.host}/emails.mime/')", "stop()"]
     result = HTTParty.post("https://api:#{Site.current.mailgun_apikey}@api.mailgun.net/v2/routes",
                   body: data)
-    render text: t(result), layout: true
+    render text: result, layout: true
   end
 
   private
