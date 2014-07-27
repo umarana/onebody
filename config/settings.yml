@@ -28,7 +28,7 @@ Contact:
 Email:
   Host:
     format: string
-    value:
+    value: alt.example.com
   Apikey:
     format: string
     value:

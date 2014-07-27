@@ -1,0 +1,4 @@
+class AddMailgunApiKeyToSites < ActiveRecord::Migration
+  def change
+  end
+end
