@@ -10,14 +10,12 @@ class EmailsController < ApplicationController
 
   #TODO Should this method be here?
   def create_route
-    data = {}
-    data[:priority] = 0
-    data[:description] = "Catch All Route"
-    data[:expression] = "match_recipient('.*@#{Site.current.email_host}')"
-    data[:action] = ["forward('http://#{Site.current.host}/emails.mime/')", "stop()"]
-    result = HTTParty.post("https://api:#{Site.current.mailgun_apikey}@api.mailgun.net/v2/routes",
-                  body: data)
+    result = Email.create_catch_all
     render text: result, layout: true
+  end
+
+  def show_route
+     Email.show_routes(limit: 10) 
   end
 
   private
